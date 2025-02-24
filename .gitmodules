@@ -1,0 +1,12 @@
+[submodule "modules/CBM_defaults"]
+	path = modules/CBM_defaults
+	url = https://github.com/PredictiveEcology/CBM_defaults.git
+[submodule "modules/CBM_dataPrep_RIA"]
+	path = modules/CBM_dataPrep_RIA
+	url = https://github.com/PredictiveEcology/CBM_dataPrep_RIA.git
+[submodule "modules/CBM_vol2biomass_RIA"]
+	path = modules/CBM_vol2biomass_RIA
+	url = https://github.com/PredictiveEcology/CBM_vol2biomass_RIA.git
+[submodule "modules/CBM_core"]
+	path = modules/CBM_core
+	url = https://github.com/PredictiveEcology/CBM_core.git
