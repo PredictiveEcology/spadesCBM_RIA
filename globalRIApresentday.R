@@ -21,7 +21,7 @@ out <- SpaDES.project::setupProject(
     spades.moduleCodeChecks = FALSE
   ),
   modules =  c("PredictiveEcology/CBM_defaults@development",
-               "PredictiveEcology/CBM_dataPrep_RIA@development",
+               "PredictiveEcology/CBM_dataPrep_RIA@suz-init",
                "PredictiveEcology/CBM_vol2biomass_RIA@development",
                "PredictiveEcology/CBM_core@development"),
   times = times,
