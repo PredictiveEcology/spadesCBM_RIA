@@ -12,10 +12,10 @@
 
   # Test repo branches instead of local submodules
   options("spades.test.modules" = c(
-    CBM_core        = "PredictiveEcology/CBM_core@development",
-    CBM_defaults    = "PredictiveEcology/CBM_defaults@development",
-    CBM_vol2biomass = "PredictiveEcology/CBM_vol2biomass_RIA@development",
-    CBM_dataPrep_SK = "suz-estella/CBM_dataPrep_RIA@presentDay"
+    CBM_core            = "PredictiveEcology/CBM_core@development",
+    CBM_defaults        = "PredictiveEcology/CBM_defaults@development",
+    CBM_vol2biomass_RIA = "PredictiveEcology/CBM_vol2biomass_RIA@development",
+    CBM_dataPrep_RIA    = "PredictiveEcology/CBM_dataPrep_RIA@development"
   ))
 
   # Suppress warnings from calls to setupProject, simInit, and spades
