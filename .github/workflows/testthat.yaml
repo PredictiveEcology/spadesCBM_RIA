@@ -1,0 +1,92 @@
+on:
+  push:
+    branches:
+      - main
+      - development
+      - presentDay
+  pull_request:
+    branches:
+      - main
+      - development
+      - presentDay
+
+name: testthat
+
+jobs:
+  testthat:
+    if: "!contains(github.event.commits[0].message, '[skip-ci]')"
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: windows-latest, r: 'release'}
+          - {os: windows-latest, r: 'devel'}
+          - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'devel'}
+          #- {os: macOS-latest,   r: 'release'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GOOGLE_AUTH: ${{ secrets.GOOGLE_AUTH }}
+      BRANCH_NAME: ${{ github.base_ref || github.ref_name }}
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: PredictiveEcology/actions/install-spatial-deps@v0.2
+
+      # 2025-01-30: systemfonts R package failed to install due to these missing
+      - name: Install extra Linux dependencies
+        if: runner.os == 'Linux' && matrix.config.r == 'devel'
+        run: |
+          sudo apt -y install libfontconfig1-dev
+          sudo apt-get install libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+        shell: bash
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          extra-repositories: 'https://predictiveecology.r-universe.dev/'
+          Ncpus: 2
+          r-version: ${{ matrix.config.r }}
+          use-public-rspm: false
+
+      - uses: PredictiveEcology/actions/install-Require@v0.2
+        with:
+          GitTag: 'development'
+
+      - uses: PredictiveEcology/actions/install-SpaDES@v0.2
+
+      - name: Install SpaDES.project
+        run: Require::Require("PredictiveEcology/SpaDES.project@development", require = FALSE)
+        shell: Rscript {0}
+
+      - name: Install testthat
+        run: install.packages("testthat")
+        shell: Rscript {0}
+
+      - name: Run testthat
+        run: |
+
+          # Set module branches
+          options("spades.test.modules" = c(
+            CBM_core            = paste0("PredictiveEcology/CBM_core@",            Sys.getenv("BRANCH_NAME")),
+            CBM_defaults        = paste0("PredictiveEcology/CBM_defaults@",        Sys.getenv("BRANCH_NAME")),
+            CBM_vol2biomass_RIA = paste0("PredictiveEcology/CBM_vol2biomass_RIA@", Sys.getenv("BRANCH_NAME")),
+            CBM_dataPrep_RIA    = paste0("PredictiveEcology/CBM_dataPrep_RIA@",    Sys.getenv("BRANCH_NAME"))
+          ))
+          cat("\nTESTING WITH MODULES:\n -", paste(getOption("spades.test.modules"), collapse = "\n - "), "\n\n")
+
+          # Authorize Google Drive
+          install.packages("googledrive")
+          googledrive::drive_auth(path = Sys.getenv("GOOGLE_AUTH"))
+
+          # Run tests in small AOI
+          testthat::test_dir("tests/testthat", filter = "RIA-small", stop_on_failure = TRUE)
+
+        shell: Rscript {0}
+
