@@ -29,35 +29,6 @@ test_that("RIA 1985-2015", {
         outputPath  = file.path(projectPath, "outputs")
       ),
 
-      require = c("reticulate"),
-
-      functions = "PredictiveEcology/CBM_core@main/R/ReticulateFindPython.R",
-      ret = {
-
-        reticulate::virtualenv_create(
-          "r-spadesCBM",
-          python = if (!reticulate::virtualenv_exists("r-spadesCBM")){
-            ReticulateFindPython(
-              version        = ">=3.9,<=3.12.7",
-              versionInstall = "3.10:latest",
-              pyenvRoot      = tools::R_user_dir("r-spadesCBM")
-            )
-          },
-          packages = c(
-            "numpy<2",
-            "pandas>=1.1.5",
-            "scipy",
-            "numexpr>=2.8.7",
-            "numba",
-            "pyyaml",
-            "mock",
-            "openpyxl",
-            "libcbm"
-          )
-        )
-        reticulate::use_virtualenv("r-spadesCBM")
-      },
-
       outputs = as.data.frame(expand.grid(
         objectName = c("cbmPools", "NPP"),
         saveTime   = sort(c(times$start, times$start + c(1:(times$end - times$start))))
@@ -92,6 +63,7 @@ test_that("RIA 1985-2015", {
       moduleTest  = "CBM_core",
       eventExpect = c(
         "init"              = times$start,
+        "spinup"            = times$start,
         "postSpinup"        = times$start,
         setNames(times$start:times$end, rep("annual", length(times$star:times$end))),
         "accumulateResults" = times$end
@@ -108,11 +80,6 @@ test_that("RIA 1985-2015", {
   ## Check output 'cbmPools' ----
 
   expect_true(!is.null(simTest$cbmPools))
-
-
-  ## Check output 'gcid_is_sw_hw' ----
-
-  expect_true(!is.null(simTest$gcid_is_sw_hw))
 
 
   ## Check output 'spinup_input' ----
