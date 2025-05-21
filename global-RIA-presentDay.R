@@ -1,8 +1,12 @@
 
 ## PROJECT DESCRIPTION ##
 # STUDY AREA: RIA
-# TIME FRAME: 2020 - 2099
-# DISTURBANCES: N/A
+# TIME FRAME: 1985 - 2015
+# DISTURBANCES: 
+# Landsat-derived annual fire and harvest layers as described in: 
+# Hermosilla, T., M.A. Wulder, J.C. White, N.C. Coops, G.W. Hobart, L.B. Campbell, (2016).
+# Mass data processing of time series Landsat imagery: pixels to data products for forest monitoring.
+# International Journal of Digital Earth. 9(11), 1035-1054.
 
 # Set project path
 projectPath <- "~/GitHub/spadesCBM_RIA"
@@ -13,7 +17,7 @@ if (tryCatch(packageVersion("SpaDES.project") < "0.1.1", error = function(x) TRU
 }
 
 # Set simulation time span
-times <- list(start = 2020, end = 2099)
+times <- list(start = 1985, end = 2015)
 
 # Set up project
 out <- SpaDES.project::setupProject(
@@ -23,7 +27,7 @@ out <- SpaDES.project::setupProject(
   
   paths = list(
     projectPath = projectPath,
-    outputPath  = file.path(projectPath, "outputs", "RIA-noDisturbances"),
+    outputPath  = file.path(projectPath, "outputs", "RIA-presentDay"),
     modulePath  = file.path(projectPath, "modules"),
     packagePath = file.path(projectPath, "packages"),
     inputPath   = file.path(projectPath, "inputs"),
@@ -55,7 +59,29 @@ out <- SpaDES.project::setupProject(
   ),
   
   # Set packages required for project set up
-  require = "googledrive",
+  require = c("googledrive", "reproducible"),
+  
+  # Set disturbances
+  disturbanceMeta = data.table(
+    eventID = c(1, 2),
+    name    = c("Wildfire", "Clearcut harvesting without salvage")
+  ),
+  disturbanceRasters = list(
+    `1` = reproducible::prepInputs(
+      destinationPath = file.path(projectPath, "inputs"),
+      url             = "https://drive.google.com/file/d/1kxCL-i311yd3cS7QDQ2GwHHtyQFiiXoo",
+      archive         = "historicalFire_1985-2015.zip",
+      targetFile      = "historicalFire_1985-2015.tif",
+      fun             = terra::rast
+    ) |> setNames(1985:2015),
+    `2` = reproducible::prepInputs(
+      destinationPath = file.path(projectPath, "inputs"),
+      url             = "https://drive.google.com/file/d/1m7mjcx5Sz--RB7x4N3cPYpGkfmxX8KPB",
+      archive         = "historicalHarvest_1985-2015.zip",
+      targetFile      = "historicalHarvest_1985-2015.tif",
+      fun             = terra::rast
+    ) |> setNames(1985:2015)
+  ),
   
   # Set outputs
   outputs = as.data.frame(expand.grid(

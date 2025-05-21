@@ -1,12 +1,9 @@
 
 ## PROJECT DESCRIPTION ##
 # STUDY AREA: RIA
-# TIME FRAME: 1985 - 2015
+# TIME FRAME: 2020 - 2099
 # DISTURBANCES: 
-# Landsat-derived annual fire and harvest layers as described in: 
-# Hermosilla, T., M.A. Wulder, J.C. White, N.C. Coops, G.W. Hobart, L.B. Campbell, (2016).
-# Mass data processing of time series Landsat imagery: pixels to data products for forest monitoring.
-# International Journal of Digital Earth. 9(11), 1035-1054.
+# TODO: describe
 
 # Set project path
 projectPath <- "~/GitHub/spadesCBM_RIA"
@@ -17,7 +14,7 @@ if (tryCatch(packageVersion("SpaDES.project") < "0.1.1", error = function(x) TRU
 }
 
 # Set simulation time span
-times <- list(start = 1985, end = 2015)
+times <- list(start = 2020, end = 2100)
 
 # Set up project
 out <- SpaDES.project::setupProject(
@@ -27,7 +24,7 @@ out <- SpaDES.project::setupProject(
   
   paths = list(
     projectPath = projectPath,
-    outputPath  = file.path(projectPath, "outputs", "RIA-presentDay"),
+    outputPath  = file.path(projectPath, "outputs", "RIA-harvest1"),
     modulePath  = file.path(projectPath, "modules"),
     packagePath = file.path(projectPath, "packages"),
     inputPath   = file.path(projectPath, "inputs"),
@@ -40,6 +37,8 @@ out <- SpaDES.project::setupProject(
               "PredictiveEcology/CBM_vol2biomass_RIA@development",
               "PredictiveEcology/CBM_core@development"),
   overwrite = TRUE, # Overwrite modules with latest updates
+  
+  require = c("googledrive", "reproducible"),
   
   options = list(
     Require.cloneFrom       = Sys.getenv("R_LIBS_USER"),
@@ -58,35 +57,35 @@ out <- SpaDES.project::setupProject(
     )
   ),
   
-  # Set packages required for project set up
-  require = c("googledrive", "reproducible"),
-  
   # Set disturbances
   disturbanceMeta = data.table(
     eventID = c(1, 2),
     name    = c("Wildfire", "Clearcut harvesting without salvage")
   ),
-  disturbanceRasters = list(
-    `1` = reproducible::prepInputs(
-      destinationPath = file.path(projectPath, "inputs"),
-      url             = "https://drive.google.com/file/d/1kxCL-i311yd3cS7QDQ2GwHHtyQFiiXoo",
-      archive         = "historicalFire_1985-2015.zip",
-      targetFile      = "historicalFire_1985-2015.tif",
-      fun             = terra::rast
-    ) |> setNames(1985:2015),
-    `2` = reproducible::prepInputs(
-      destinationPath = file.path(projectPath, "inputs"),
-      url             = "https://drive.google.com/file/d/1m7mjcx5Sz--RB7x4N3cPYpGkfmxX8KPB",
-      archive         = "historicalHarvest_1985-2015.zip",
-      targetFile      = "historicalHarvest_1985-2015.tif",
-      fun             = terra::rast
-    ) |> setNames(1985:2015)
-  ),
+  disturbanceRasters = {
+    
+    reproducible::prepInputs(
+      destinationPath = file.path(projectPath, "inputs", "harvest1"),
+      url        = "https://drive.google.com/file/d/1JpdB9CKpHga55jBmOlATkVyemqbUjtv5",
+      targetFile = "tif_scenrio-carbon-base_20210622.tar.gz",
+      fun        = utils::untar
+    )
+    tsaDirs <- list.files(file.path(projectPath, "inputs", "harvest1", "tif"), full = TRUE)
+    
+    list(
+      `1` = lapply(setNames(times$start:times$end, times$start:times$end), function(year){
+        file.path(tsaDirs, paste0("projected_fire_",    year, ".tif"))
+      }),
+      `2` = lapply(setNames(times$start:times$end, times$start:times$end), function(year){
+        file.path(tsaDirs, paste0("projected_harvest_", year, ".tif"))
+      })
+    )
+  },
   
   # Set outputs
   outputs = as.data.frame(expand.grid(
     objectName = c("cbmPools", "NPP"),
-    saveTime = sort(c(times$start, times$start + c(1:(times$end - times$start))))
+    saveTime   = sort(c(times$start, times$start + c(1:(times$end - times$start))))
   ))
 )
 
