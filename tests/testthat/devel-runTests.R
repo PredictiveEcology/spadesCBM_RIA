@@ -27,8 +27,8 @@
 
 ## RUN INDIVIDUAL TESTS ----
   
-  ## Run RIA-small: no disturbances
-  testthat::test_file("tests/testthat/test-RIA-small_disturbanceFree.R")
+  ## Run RIA-small: defaults (no disturbances)
+  testthat::test_file("tests/testthat/test-RIA-small_defaults.R")
   
   ## Run RIA-small: FRI
   testthat::test_file("tests/testthat/test-RIA-small_FRI.R")
