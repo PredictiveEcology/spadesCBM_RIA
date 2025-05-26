@@ -1,7 +1,7 @@
 
 if (!testthat::is_testing()) source(testthat::test_path("setup.R"))
 
-test_that("RIA-small no disturbances", {
+test_that("RIA-small", {
 
   ## Run simInit and spades ----
 
@@ -9,7 +9,7 @@ test_that("RIA-small no disturbances", {
   times <- list(start = 2020, end = 2099)
 
   # Set project path
-  projectPath <- file.path(spadesTestPaths$temp$projects, "RIA-small_disturbanceFree")
+  projectPath <- file.path(spadesTestPaths$temp$projects, "RIA-small")
   dir.create(projectPath)
   withr::local_dir(projectPath)
   
