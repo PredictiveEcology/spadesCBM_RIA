@@ -59,7 +59,7 @@ out <- SpaDES.project::setupProject(
   ),
   
   # Set packages required for project set up
-  require = c("googledrive", "reproducible"),
+  require = c("googledrive", "reproducible", "terra"),
   
   # Set disturbances
   disturbanceMeta = data.table(
