@@ -54,9 +54,6 @@ out <- SpaDES.project::setupProject(
     )
   ),
   
-  # Set packages required for project set up
-  require = "googledrive",
-  
   # Set outputs
   outputs = as.data.frame(expand.grid(
     objectName = c("cbmPools", "NPP"),
