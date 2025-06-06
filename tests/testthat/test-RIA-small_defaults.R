@@ -4,9 +4,9 @@ if (!testthat::is_testing()) source(testthat::test_path("setup.R"))
 test_that("RIA-small", {
 
   ## Run simInit and spades ----
-
+  
   # Set times
-  times <- list(start = 2020, end = 2099)
+  times <- list(start = 2020, end = 2025)
 
   # Set project path
   projectPath <- file.path(spadesTestPaths$temp$projects, "RIA-small")
@@ -24,15 +24,16 @@ test_that("RIA-small", {
   simInitInput <- SpaDEStestMuffleOutput(
 
     SpaDES.project::setupProject(
+      
+      times = times,
 
       modules = c(
         paste0("PredictiveEcology/CBM_defaults@",        Sys.getenv("BRANCH_NAME")),
-        paste0("PredictiveEcology/CBM_dataPrep_RIA@",    "presentDay"), # temporary
+        paste0("PredictiveEcology/CBM_dataPrep_RIA@",    Sys.getenv("BRANCH_NAME")),
+        paste0("PredictiveEcology/CBM_dataPrep@",        Sys.getenv("BRANCH_NAME")),
         paste0("PredictiveEcology/CBM_vol2biomass_RIA@", Sys.getenv("BRANCH_NAME")),
         paste0("PredictiveEcology/CBM_core@",            Sys.getenv("BRANCH_NAME"))
       ),
-      
-      times   = times,
       paths   = list(
         projectPath = projectPath,
         modulePath  = spadesTestPaths$modulePath,
@@ -40,6 +41,9 @@ test_that("RIA-small", {
         inputPath   = spadesTestPaths$inputPath,
         cachePath   = spadesTestPaths$cachePath,
         outputPath  = file.path(projectPath, "outputs")
+      ),
+      options = list(
+        reproducible.useMemoise = TRUE
       ),
 
       # Set packages required for project set up

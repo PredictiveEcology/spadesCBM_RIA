@@ -1,15 +1,15 @@
 
 if (!testthat::is_testing()) source(testthat::test_path("setup.R"))
 
-test_that("RIA-small FRI", {
+test_that("RIA-small - FRI", {
   
   ## Run simInit and spades ----
   
   # Set times
-  times <- list(start = 2020, end = 2099) # can go until 2540
+  times <- list(start = 2020, end = 2025) # Time span: 2020 - 2540
   
   # Set project path
-  projectPath <- file.path(spadesTestPaths$temp$projects, "1-RIA-small_FRI")
+  projectPath <- file.path(spadesTestPaths$temp$projects, "RIA-small_FRI")
   dir.create(projectPath)
   withr::local_dir(projectPath)
   
@@ -25,14 +25,15 @@ test_that("RIA-small FRI", {
     
     SpaDES.project::setupProject(
       
+      times = times,
+      
       modules = c(
         paste0("PredictiveEcology/CBM_defaults@",        Sys.getenv("BRANCH_NAME")),
-        paste0("PredictiveEcology/CBM_dataPrep_RIA@",    "presentDay"), # temporary
+        paste0("PredictiveEcology/CBM_dataPrep_RIA@",    Sys.getenv("BRANCH_NAME")),
+        paste0("PredictiveEcology/CBM_dataPrep@",        Sys.getenv("BRANCH_NAME")),
         paste0("PredictiveEcology/CBM_vol2biomass_RIA@", Sys.getenv("BRANCH_NAME")),
         paste0("PredictiveEcology/CBM_core@",            Sys.getenv("BRANCH_NAME"))
       ),
-      
-      times   = times,
       paths   = list(
         projectPath = projectPath,
         modulePath  = spadesTestPaths$modulePath,
@@ -40,6 +41,9 @@ test_that("RIA-small FRI", {
         inputPath   = spadesTestPaths$inputPath,
         cachePath   = spadesTestPaths$cachePath,
         outputPath  = file.path(projectPath, "outputs")
+      ),
+      options = list(
+        reproducible.useMemoise = TRUE
       ),
       
       # Set packages required for project set up

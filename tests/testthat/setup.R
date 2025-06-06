@@ -8,9 +8,6 @@ if (!testthat::is_testing()){
 ## Otherwise SpaDES.core will install and load an older version from CRAN first
 Require::Install("PredictiveEcology/quickPlot@development (>= 1.0.2.9001)")
 
-# 2025-05 temporary: set Github repo branch to 'development' instead of presentDay'
-if (Sys.getenv("BRANCH_NAME") == "presentDay") Sys.setenv(BRANCH_NAME = "development")
-
 # Source work in progress SpaDES module testing functions
 suppressPackageStartupMessages(library(SpaDES.core))
 tempScript <- tempfile(fileext = ".R")

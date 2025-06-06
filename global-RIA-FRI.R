@@ -22,6 +22,15 @@ out <- SpaDES.project::setupProject(
   Restart = getOption("SpaDES.project.Restart", TRUE),
   useGit = "PredictiveEcology", # Clone the project repo from Github
   
+  times = times,
+  
+  modules = c("PredictiveEcology/CBM_defaults@development",
+              "PredictiveEcology/CBM_dataPrep_RIA@development",
+              "PredictiveEcology/CBM_dataPrep@development",
+              "PredictiveEcology/CBM_vol2biomass_RIA@development",
+              "PredictiveEcology/CBM_core@development"),
+  overwrite = TRUE, # Overwrite modules with latest updates
+  
   paths = list(
     projectPath = projectPath,
     outputPath  = file.path(projectPath, "outputs", "RIA-FRI"),
@@ -31,31 +40,22 @@ out <- SpaDES.project::setupProject(
     cachePath   = file.path(projectPath, "cache")
   ),
   
-  times = times,
-  modules = c("PredictiveEcology/CBM_defaults@development",
-              "PredictiveEcology/CBM_dataPrep_RIA@presentDay",
-              "PredictiveEcology/CBM_vol2biomass_RIA@development",
-              "PredictiveEcology/CBM_core@development"),
-  overwrite = TRUE, # Overwrite modules with latest updates
-  
-  require = c("googledrive", "reproducible", "terra"),
-  
+  # Set options and parameters
   options = list(
     Require.cloneFrom       = Sys.getenv("R_LIBS_USER"),
     reproducible.useMemoise = TRUE,
     spades.moduleCodeChecks = FALSE
   ),
   params = list(
-    CBM_defaults = list(
-      .useCache = TRUE
-    ),
-    CBM_dataPrep_RIA = list(
-      .useCache = c(".inputObjects", "Init")
-    ),
-    CBM_vol2biomass_RIA = list(
-      .useCache = TRUE
-    )
+    CBM_defaults        = list(.useCache = TRUE),
+    CBM_dataPrep_RIA    = list(.useCache = TRUE),
+    CBM_dataPrep        = list(.useCache = c("inputObjects", "Init")),
+    CBM_vol2biomass_RIA = list(.useCache = TRUE),
+    CBM_core            = list(.useCache = TRUE)
   ),
+  
+  # Set packages required for project set up
+  require = c("googledrive", "reproducible", "terra"),
   
   # Set disturbances
   disturbanceMeta = data.table(

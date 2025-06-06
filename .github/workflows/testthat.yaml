@@ -3,12 +3,10 @@ on:
     branches:
       - main
       - development
-      - presentDay
   pull_request:
     branches:
       - main
       - development
-      - presentDay
 
 name: testthat
 

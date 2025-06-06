@@ -10,3 +10,6 @@
 [submodule "modules/CBM_core"]
 	path = modules/CBM_core
 	url = https://github.com/PredictiveEcology/CBM_core.git
+[submodule "modules/CBM_dataPrep"]
+	path = modules/CBM_dataPrep
+	url = https://github.com/PredictiveEcology/CBM_dataPrep.git
