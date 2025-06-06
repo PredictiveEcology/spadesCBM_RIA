@@ -4,6 +4,10 @@ if (!testthat::is_testing()){
   testthat::source_test_helpers(env = globalenv())
 }
 
+# 2025-05: Install latest quickPlot from Github required by LandR
+## Otherwise SpaDES.core will install and load an older version from CRAN first
+Require::Install("PredictiveEcology/quickPlot@development (>= 1.0.2.9001)")
+
 # Source work in progress SpaDES module testing functions
 suppressPackageStartupMessages(library(SpaDES.core))
 tempScript <- tempfile(fileext = ".R")
@@ -12,24 +16,13 @@ download.file(
   tempScript, quiet = TRUE)
 source(tempScript)
 
-# Set up testing global options
+# Set up testing directories and global options
 SpaDEStestSetGlobalOptions()
+spadesTestPaths <- SpaDEStestSetUpDirectories(modulePath = NA)
 
-# Set up testing directories
-spadesTestPaths <- SpaDEStestSetUpDirectories(
-  modulePath  = "modules",
-  moduleRepos = getOption("spades.test.modules"),
-  require     = "googledrive"
-)
-
-## Store cache in RProject
-if (!testthat::is_testing()) spadesTestPaths$temp$cache <- file.path(spadesTestPaths$RProj, "tests/cache")
-
-# Recreate the Python virtual environment location
-if (getOption("spades.test.virtualEnv", default = FALSE)){
-  dir.create(file.path(spadesTestPaths$temp$root, "virtualenvs"))
-  withr::local_envvar(
-    list(RETICULATE_VIRTUALENV_ROOT = file.path(spadesTestPaths$temp$root, "virtualenvs")),
-    .local_envir = if (testthat::is_testing()) testthat::teardown_env() else parent.frame())
-}
+# Install required packages
+withr::with_options(c(timeout = 600), Require::Install(
+  c("SpaDES.project", "googledrive"),
+  repos = unique(c("predictiveecology.r-universe.dev", getOption("repos")))
+))
 
