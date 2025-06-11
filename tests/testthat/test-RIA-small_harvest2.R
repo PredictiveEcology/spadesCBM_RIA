@@ -42,9 +42,6 @@ test_that("RIA-small - harvest2", {
         cachePath   = spadesTestPaths$cachePath,
         outputPath  = file.path(projectPath, "outputs")
       ),
-      options = list(
-        reproducible.useMemoise = TRUE
-      ),
       
       # Set packages required for project set up
       require = c("terra", "reproducible"),
