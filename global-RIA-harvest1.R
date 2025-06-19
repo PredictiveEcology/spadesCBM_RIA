@@ -14,7 +14,7 @@ if (tryCatch(packageVersion("SpaDES.project") < "0.1.1", error = function(x) TRU
 }
 
 # Set simulation time span
-times <- list(start = 2020, end = 2100)
+times <- list(start = 2020, end = 2099)
 
 # Set up project
 out <- SpaDES.project::setupProject(
