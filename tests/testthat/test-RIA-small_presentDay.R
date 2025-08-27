@@ -47,8 +47,9 @@ test_that("RIA-small - presentDay", {
 
       # Set disturbances
       disturbanceMeta = data.table(
-        eventID = c(1, 2),
-        name    = c("Wildfire", "Clearcut harvesting without salvage")
+        eventID  = c(1, 2),
+        name     = c("Wildfire", "Clearcut harvesting without salvage"),
+        priority = c(1, 2)
       ),
       disturbanceRasters = list(
         `1` = reproducible::prepInputs(
