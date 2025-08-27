@@ -7,7 +7,7 @@ test_that("RIA-small - harvest2", {
   
   # Set up project
   projectName <- "RIA-small_harvest2"
-  times       <- list(start = 2010, end = 2015) # Time span: 1985 - 2015
+  times       <- list(start = 2020, end = 2025) # Time span: 2020 - 2099
   
   simInitInput <- SpaDEStestMuffleOutput(
     
