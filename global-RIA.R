@@ -51,13 +51,7 @@ out <- SpaDES.project::setupProject(
     CBM_dataPrep        = list(.useCache = c("inputObjects", "Init")),
     CBM_vol2biomass_RIA = list(.useCache = TRUE),
     CBM_core            = list(.useCache = TRUE)
-  ),
-  
-  # Set outputs
-  outputs = as.data.frame(expand.grid(
-    objectName = c("cbmPools", "NPP"),
-    saveTime   = sort(c(times$start, times$start + c(1:(times$end - times$start))))
-  ))
+  )
 )
 
 # Run simulation

@@ -40,13 +40,7 @@ test_that("RIA-small", {
         res  = 250,
         ext  = c(xmin = -1653000, xmax = -1553000, ymin = 7765000, ymax = 7865000),
         crs  = masterRasterCRS
-      ),
-      
-      # Set outputs
-      outputs = as.data.frame(expand.grid(
-        objectName = c("cbmPools", "NPP"),
-        saveTime = sort(c(times$start, times$start + c(1:(times$end - times$start))))
-      ))
+      )
     )
   )
 

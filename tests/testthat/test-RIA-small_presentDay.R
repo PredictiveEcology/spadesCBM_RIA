@@ -66,13 +66,7 @@ test_that("RIA-small - presentDay", {
           targetFile      = "historicalHarvest_1985-2015.tif",
           fun             = terra::rast
         ) |> setNames(1985:2015)
-      ),
-      
-      # Set outputs
-      outputs = as.data.frame(expand.grid(
-        objectName = c("cbmPools", "NPP"),
-        saveTime = sort(c(times$start, times$start + c(1:(times$end - times$start))))
-      ))
+      )
     )
   )
 
