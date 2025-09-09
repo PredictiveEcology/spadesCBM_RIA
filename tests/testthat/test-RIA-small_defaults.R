@@ -32,14 +32,17 @@ test_that("RIA-small", {
       ),
 
       # Set packages required for project set up
-      require = c("terra", "reproducible"),
+      require = "terra",
       
       # Set study area
       masterRaster = terra::rast(
-        vals = 1L,
+        crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
         res  = 250,
-        ext  = c(xmin = -1653000, xmax = -1553000, ymin = 7765000, ymax = 7865000),
-        crs  = masterRasterCRS
+        vals = 1L,
+        xmin = -1653000,
+        xmax = -1553000,
+        ymin =  7765000,
+        ymax =  7865000
       )
     )
   )

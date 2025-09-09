@@ -36,10 +36,13 @@ test_that("RIA-small - FRI", {
       
       # Set study area
       masterRaster = terra::rast(
-        vals = 1L,
+        crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
         res  = 250,
-        ext  = c(xmin = -1653000, xmax = -1553000, ymin = 7765000, ymax = 7865000),
-        crs  = masterRasterCRS
+        vals = 1L,
+        xmin = -1653000,
+        xmax = -1553000,
+        ymin =  7765000,
+        ymax =  7865000
       ),
       
       # Set disturbances
@@ -51,7 +54,7 @@ test_that("RIA-small - FRI", {
       disturbanceRasters = list(`1` = {
         
         distFRI <- reproducible::prepInputs(
-          destinationPath = spadesTestPaths$inputPath,
+          destinationPath = paths$inputPath,
           url        = "https://drive.google.com/file/d/1fJIPVMyDu66CopA-YP-xSdP2Zx1Ll_q8",
           targetFile = "annualFires525yrs.tif",
           fun        = terra::rast

@@ -36,10 +36,13 @@ test_that("RIA-small - presentDay", {
       
       # Set study area
       masterRaster = terra::rast(
-        vals = 1L,
+        crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
         res  = 250,
-        ext  = c(xmin = -1653000, xmax = -1553000, ymin = 7765000, ymax = 7865000),
-        crs  = masterRasterCRS
+        vals = 1L,
+        xmin = -1653000,
+        xmax = -1553000,
+        ymin =  7765000,
+        ymax =  7865000
       ),
       
       # Set age data year
@@ -53,14 +56,14 @@ test_that("RIA-small - presentDay", {
       ),
       disturbanceRasters = list(
         `1` = reproducible::prepInputs(
-          destinationPath = spadesTestPaths$inputPath,
+          destinationPath = paths$inputPath,
           url             = "https://drive.google.com/file/d/1kxCL-i311yd3cS7QDQ2GwHHtyQFiiXoo",
           archive         = "historicalFire_1985-2015.zip",
           targetFile      = "historicalFire_1985-2015.tif",
           fun             = terra::rast
         ) |> setNames(1985:2015),
         `2` = reproducible::prepInputs(
-          destinationPath = spadesTestPaths$inputPath,
+          destinationPath = paths$inputPath,
           url             = "https://drive.google.com/file/d/1m7mjcx5Sz--RB7x4N3cPYpGkfmxX8KPB",
           archive         = "historicalHarvest_1985-2015.zip",
           targetFile      = "historicalHarvest_1985-2015.tif",

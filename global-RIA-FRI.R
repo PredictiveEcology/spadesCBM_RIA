@@ -43,7 +43,7 @@ out <- SpaDES.project::setupProject(
   # Set options and parameters
   options = list(
     Require.cloneFrom       = Sys.getenv("R_LIBS_USER"),
-    reproducible.useMemoise = TRUE,
+    reproducible.useMemoise = FALSE,
     spades.moduleCodeChecks = FALSE
   ),
   params = list(
@@ -66,7 +66,7 @@ out <- SpaDES.project::setupProject(
   disturbanceRasters = list(`1` = {
     
     distFRI <- reproducible::prepInputs(
-      destinationPath = file.path(projectPath, "inputs"),
+      destinationPath = paths$inputPath,
       url        = "https://drive.google.com/file/d/1fJIPVMyDu66CopA-YP-xSdP2Zx1Ll_q8",
       targetFile = "annualFires525yrs.tif",
       fun        = terra::rast

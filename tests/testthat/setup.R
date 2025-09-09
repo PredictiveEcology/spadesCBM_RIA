@@ -22,7 +22,3 @@ withr::with_options(c(timeout = 600), Require::Install(
   repos = unique(c("predictiveecology.r-universe.dev", getOption("repos")))
 ))
 
-# Set master raster CRS
-masterRasterCRS <- terra::crs(
-  paste(readLines(file.path(spadesTestPaths$testdata, "masterRasterCRS.prj")), collapse = "\n"))
-

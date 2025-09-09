@@ -36,10 +36,13 @@ test_that("RIA-small - harvest2", {
       
       # Set study area
       masterRaster = terra::rast(
-        vals = 1L,
+        crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
         res  = 250,
-        ext  = c(xmin = -1653000, xmax = -1553000, ymin = 7765000, ymax = 7865000),
-        crs  = masterRasterCRS
+        vals = 1L,
+        xmin = -1653000,
+        xmax = -1553000,
+        ymin =  7765000,
+        ymax =  7865000
       ),
       
       # Set disturbances
@@ -53,7 +56,7 @@ test_that("RIA-small - harvest2", {
         tsas <- c(16, 40)
         
         reproducible::prepInputs(
-          destinationPath = file.path(spadesTestPaths$inputPath, "harvest2"),
+          destinationPath = file.path(paths$inputPath, "harvest2"),
           url        = "https://drive.google.com/file/d/1PiDpeYGZJfKUPvMGlWvXkEfuThX-lD5r",
           targetFile = "tif_scenrio-carbon-less_20210622.tar.gz",
           fun        = utils::untar
@@ -61,10 +64,10 @@ test_that("RIA-small - harvest2", {
         
         list(
           `1` = lapply(setNames(times$start:times$end, times$start:times$end), function(year){
-            file.path(spadesTestPaths$inputPath, "harvest2", "tif", paste0("tsa", tsas), paste0("projected_fire_",    year, ".tif"))
+            file.path(paths$inputPath, "harvest2", "tif", paste0("tsa", tsas), paste0("projected_fire_",    year, ".tif"))
           }),
           `2` = lapply(setNames(times$start:times$end, times$start:times$end), function(year){
-            file.path(spadesTestPaths$inputPath, "harvest2", "tif", paste0("tsa", tsas), paste0("projected_harvest_", year, ".tif"))
+            file.path(paths$inputPath, "harvest2", "tif", paste0("tsa", tsas), paste0("projected_harvest_", year, ".tif"))
           })
         )
       }
