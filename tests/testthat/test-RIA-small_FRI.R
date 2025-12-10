@@ -37,9 +37,12 @@ test_that("RIA-small - FRI", {
       # Set study area
       masterRaster = terra::rast(
         crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
-        vals = 1L,
         res  = 250,
-        ext  = c(xmin = -1653000, xmax = -1553000, ymin = 7765000, ymax = 7865000)
+        vals = 1L,
+        xmin = -1653000,
+        xmax = -1553000,
+        ymin =  7765000,
+        ymax =  7865000
       ),
       
       # Set disturbances

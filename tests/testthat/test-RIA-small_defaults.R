@@ -8,7 +8,7 @@ test_that("RIA-small", {
   # Set up project
   projectName <- "1_defaults"
   times       <- list(start = 2020, end = 2020)
-
+  
   simInitInput <- SpaDEStestMuffleOutput(
 
     SpaDES.project::setupProject(
@@ -32,14 +32,17 @@ test_that("RIA-small", {
       ),
 
       # Set packages required for project set up
-      require = c("terra", "reproducible"),
+      require = "terra",
       
       # Set study area
       masterRaster = terra::rast(
         crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
-        vals = 1L,
         res  = 250,
-        ext  = c(xmin = -1653000, xmax = -1553000, ymin = 7765000, ymax = 7865000)
+        vals = 1L,
+        xmin = -1653000,
+        xmax = -1553000,
+        ymin =  7765000,
+        ymax =  7865000
       )
     )
   )

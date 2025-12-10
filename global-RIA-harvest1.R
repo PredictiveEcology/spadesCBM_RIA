@@ -43,7 +43,7 @@ out <- SpaDES.project::setupProject(
   # Set options and parameters
   options = list(
     Require.cloneFrom       = Sys.getenv("R_LIBS_USER"),
-    reproducible.useMemoise = TRUE,
+    reproducible.useMemoise = FALSE,
     spades.moduleCodeChecks = FALSE
   ),
   params = list(
@@ -66,11 +66,11 @@ out <- SpaDES.project::setupProject(
   disturbanceRasters = {
     
     reproducible::prepInputs(
-      destinationPath = file.path(projectPath, "inputs", "harvest1"),
+      destinationPath = file.path(paths$inputPath, "harvest1"),
       url        = "https://drive.google.com/file/d/1JpdB9CKpHga55jBmOlATkVyemqbUjtv5",
       targetFile = "tif_scenrio-carbon-base_20210622.tar.gz",
       fun       = NA)
-    tsaDirs <- list.files(file.path(projectPath, "inputs", "harvest1", "tif"), full = TRUE)
+    tsaDirs <- list.files(file.path(paths$inputPath, "harvest1", "tif"), full = TRUE)
     
     list(
       `1` = lapply(setNames(times$start:times$end, times$start:times$end), function(year){

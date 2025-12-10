@@ -46,7 +46,7 @@ out <- SpaDES.project::setupProject(
   # Set options and parameters
   options = list(
     Require.cloneFrom       = Sys.getenv("R_LIBS_USER"),
-    reproducible.useMemoise = TRUE,
+    reproducible.useMemoise = FALSE,
     spades.moduleCodeChecks = FALSE
   ),
   params = list(
@@ -71,14 +71,14 @@ out <- SpaDES.project::setupProject(
   ),
   disturbanceRasters = list(
     `1` = reproducible::prepInputs(
-      destinationPath = file.path(projectPath, "inputs"),
+      destinationPath = paths$inputPath,
       url             = "https://drive.google.com/file/d/1kxCL-i311yd3cS7QDQ2GwHHtyQFiiXoo",
       archive         = "historicalFire_1985-2015.zip",
       targetFile      = "historicalFire_1985-2015.tif",
       fun             = terra::rast
     ) |> setNames(1985:2015),
     `2` = reproducible::prepInputs(
-      destinationPath = file.path(projectPath, "inputs"),
+      destinationPath = paths$inputPath,
       url             = "https://drive.google.com/file/d/1m7mjcx5Sz--RB7x4N3cPYpGkfmxX8KPB",
       archive         = "historicalHarvest_1985-2015.zip",
       targetFile      = "historicalHarvest_1985-2015.tif",
