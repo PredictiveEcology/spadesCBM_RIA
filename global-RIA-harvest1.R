@@ -69,8 +69,7 @@ out <- SpaDES.project::setupProject(
       destinationPath = file.path(projectPath, "inputs", "harvest1"),
       url        = "https://drive.google.com/file/d/1JpdB9CKpHga55jBmOlATkVyemqbUjtv5",
       targetFile = "tif_scenrio-carbon-base_20210622.tar.gz",
-      fun        = utils::untar
-    )
+      fun       = NA)
     tsaDirs <- list.files(file.path(projectPath, "inputs", "harvest1", "tif"), full = TRUE)
     
     list(
@@ -81,13 +80,7 @@ out <- SpaDES.project::setupProject(
         file.path(tsaDirs, paste0("projected_harvest_", year, ".tif"))
       })
     )
-  },
-  
-  # Set outputs
-  outputs = as.data.frame(expand.grid(
-    objectName = c("cbmPools", "NPP"),
-    saveTime   = sort(c(times$start, times$start + c(1:(times$end - times$start))))
-  ))
+  }
 )
 
 # Run simulation
