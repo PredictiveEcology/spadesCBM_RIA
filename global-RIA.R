@@ -42,7 +42,7 @@ out <- SpaDES.project::setupProject(
   # Set options and parameters
   options = list(
     Require.cloneFrom       = Sys.getenv("R_LIBS_USER"),
-    reproducible.useMemoise = TRUE,
+    reproducible.useMemoise = FALSE,
     spades.moduleCodeChecks = FALSE
   ),
   params = list(
