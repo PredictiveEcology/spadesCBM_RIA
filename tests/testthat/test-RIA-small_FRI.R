@@ -19,7 +19,7 @@ test_that("RIA-small - FRI", {
         paste0("PredictiveEcology/CBM_defaults@",        Sys.getenv("BRANCH_NAME", "development")),
         paste0("PredictiveEcology/CBM_dataPrep_RIA@",    Sys.getenv("BRANCH_NAME", "development")),
         paste0("PredictiveEcology/CBM_dataPrep@",        Sys.getenv("BRANCH_NAME", "development")),
-        paste0("PredictiveEcology/CBM_vol2biomass_RIA@", Sys.getenv("BRANCH_NAME", "development")),
+        paste0("PredictiveEcology/CBM_vol2biomassA@", Sys.getenv("BRANCH_NAME", "development")),
         paste0("PredictiveEcology/CBM_core@",            Sys.getenv("BRANCH_NAME", "development"))
       ),
       paths   = list(
