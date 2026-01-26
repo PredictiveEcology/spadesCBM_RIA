@@ -13,3 +13,6 @@
 [submodule "modules/CBM_dataPrep"]
 	path = modules/CBM_dataPrep
 	url = https://github.com/PredictiveEcology/CBM_dataPrep.git
+[submodule "modules/CBM_vol2biomass"]
+	path = modules/CBM_vol2biomass
+	url = https://github.com/PredictiveEcology/CBM_vol2biomass.git
