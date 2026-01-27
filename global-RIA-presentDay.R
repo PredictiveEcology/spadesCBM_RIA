@@ -30,7 +30,7 @@ out <- SpaDES.project::setupProject(
   modules = c("PredictiveEcology/CBM_defaults@development",
               "PredictiveEcology/CBM_dataPrep_RIA@development",
               "PredictiveEcology/CBM_dataPrep@development",
-              "PredictiveEcology/CBM_vol2biomass_RIA@development",
+              "PredictiveEcology/CBM_vol2biomass@development",
               "PredictiveEcology/CBM_core@development"),
   overwrite = TRUE, # Overwrite modules with latest updates
   
