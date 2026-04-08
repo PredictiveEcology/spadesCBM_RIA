@@ -9,61 +9,50 @@ test_that("RIA-small", {
   projectName <- "1_defaults"
   times       <- list(start = 2020, end = 2020)
   
-  simInitInput <- SpaDEStestMuffleOutput(
-
-    SpaDES.project::setupProject(
-      
-      times = times,
-
-      modules = c(
-        paste0("PredictiveEcology/CBM_defaults@",        Sys.getenv("BRANCH_NAME", "development")),
-        paste0("PredictiveEcology/CBM_dataPrep_RIA@",    Sys.getenv("BRANCH_NAME", "development")),
-        paste0("PredictiveEcology/CBM_dataPrep@",        Sys.getenv("BRANCH_NAME", "development")),
-        paste0("PredictiveEcology/CBM_vol2biomass@", Sys.getenv("BRANCH_NAME", "development")),
-        paste0("PredictiveEcology/CBM_core@",            Sys.getenv("BRANCH_NAME", "development"))
-      ),
-      paths   = list(
-        projectPath = spadesTestPaths$projectPath,
-        modulePath  = spadesTestPaths$modulePath,
-        packagePath = spadesTestPaths$packagePath,
-        inputPath   = spadesTestPaths$inputPath,
-        cachePath   = spadesTestPaths$cachePath,
-        outputPath  = file.path(spadesTestPaths$temp$outputs, projectName)
-      ),
-
-      # Set packages required for project set up
-      require = "terra",
-      
-      # Set study area
-      masterRaster = terra::rast(
-        crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
-        res  = 250,
-        vals = 1L,
-        xmin = -1653000,
-        xmax = -1553000,
-        ymin =  7765000,
-        ymax =  7865000
-      )
+  simInitInput <- SpaDES.project::setupProject(
+    
+    times = times,
+    
+    modules = c(
+      paste0("PredictiveEcology/CBM_defaults@",        Sys.getenv("BRANCH_NAME", "development")),
+      paste0("PredictiveEcology/CBM_dataPrep_RIA@",    Sys.getenv("BRANCH_NAME", "development")),
+      paste0("PredictiveEcology/CBM_dataPrep@",        Sys.getenv("BRANCH_NAME", "development")),
+      paste0("PredictiveEcology/CBM_vol2biomass@", Sys.getenv("BRANCH_NAME", "development")),
+      paste0("PredictiveEcology/CBM_core@",            Sys.getenv("BRANCH_NAME", "development"))
+    ),
+    paths   = list(
+      projectPath = spadesTestPaths$projectPath,
+      modulePath  = spadesTestPaths$modulePath,
+      packagePath = spadesTestPaths$packagePath,
+      inputPath   = spadesTestPaths$inputPath,
+      cachePath   = spadesTestPaths$cachePath,
+      outputPath  = file.path(spadesTestPaths$temp$outputs, projectName)
+    ),
+    
+    # Set packages required for project set up
+    require = "terra",
+    
+    # Set study area
+    masterRaster = terra::rast(
+      crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
+      res  = 250,
+      vals = 1L,
+      xmin = -1653000,
+      xmax = -1553000,
+      ymin =  7765000,
+      ymax =  7865000
     )
   )
 
   # Run simInit
-  simTestInit <- SpaDEStestMuffleOutput(
-    SpaDES.core::simInit2(simInitInput)
-  )
-
+  simTestInit <- SpaDES.core::simInit2(simInitInput)
   expect_s4_class(simTestInit, "simList")
 
   # Run spades
-  simTest <- SpaDEStestMuffleOutput(
-    SpaDES.core::spades(simTestInit)
-  )
-
+  simTest <- SpaDES.core::spades(simTestInit)
   expect_s4_class(simTest, "simList")
 
-
-  ## Check outputs ----
-  
+  # Check outputs
   expect_true(!is.null(simTest$emissionsProducts))
 
 })
