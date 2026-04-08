@@ -14,11 +14,11 @@ test_that("RIA-small - harvest1", {
     times = times,
     
     modules = c(
-      paste0("PredictiveEcology/CBM_defaults@",        Sys.getenv("BRANCH_NAME", "development")),
-      paste0("PredictiveEcology/CBM_dataPrep_RIA@",    Sys.getenv("BRANCH_NAME", "development")),
-      paste0("PredictiveEcology/CBM_dataPrep@",        Sys.getenv("BRANCH_NAME", "development")),
-      paste0("PredictiveEcology/CBM_vol2biomass@", Sys.getenv("BRANCH_NAME", "development")),
-      paste0("PredictiveEcology/CBM_core@",            Sys.getenv("BRANCH_NAME", "development"))
+      paste0("PredictiveEcology/CBM_defaults@",     Sys.getenv("BRANCH_NAME", "development")),
+      paste0("PredictiveEcology/CBM_dataPrep_RIA@", Sys.getenv("BRANCH_NAME", "development")),
+      paste0("PredictiveEcology/CBM_dataPrep@",     Sys.getenv("BRANCH_NAME", "development")),
+      paste0("PredictiveEcology/CBM_vol2biomass@",  Sys.getenv("BRANCH_NAME", "development")),
+      paste0("PredictiveEcology/CBM_core@",         Sys.getenv("BRANCH_NAME", "development"))
     ),
     paths   = list(
       projectPath = spadesTestPaths$projectPath,
@@ -26,7 +26,8 @@ test_that("RIA-small - harvest1", {
       packagePath = spadesTestPaths$packagePath,
       inputPath   = spadesTestPaths$inputPath,
       cachePath   = spadesTestPaths$cachePath,
-      outputPath  = file.path(spadesTestPaths$temp$outputs, projectName)
+      outputPath  = file.path(spadesTestPaths$temp$outputs, projectName),
+      testdata    = spadesTestPaths$testdata
     ),
     
     # Set packages required for project set up
@@ -34,7 +35,7 @@ test_that("RIA-small - harvest1", {
     
     # Set study area
     masterRaster = terra::rast(
-      crs  = file.path(spadesTestPaths$testdata, "masterRasterCRS.prj"),
+      crs  = file.path(paths$testdata, "masterRasterCRS.prj"),
       res  = 250,
       vals = 1L,
       xmin = -1653000,
